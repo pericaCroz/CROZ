@@ -1,0 +1,4 @@
+Main-Class: hr.croz.zadatak3.Main
+Class-Path: jsch-0.1.48.jar
+
+

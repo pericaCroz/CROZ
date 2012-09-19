@@ -1,0 +1,3 @@
+Main-Class: hr.croz.main.Main
+Class-Path: .
+

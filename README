@@ -1,0 +1,74 @@
+1.
+==
+Potrebno je prekopirati datoteke iz direktorija webapp u proizvoljno imenovani
+direktorij u web hijerarhiji Tomcat posluzitelja. Ako zelite da aplikacija bude
+dostupna preko /app/, onda se i direktorij mora zvati app.
+Preusmjeravanje httpa na https smatram da je duzan obaviti sam web server, dakle
+trebalo bi konfigurirati Tomcatove connectore da rade redirect na https.
+
+Nakon postavljanja aplikacije u webapps direktorij Tomcata s imenom app,
+aplikacija ce biti dostupna na http(s)://localhost/app/hello.
+
+Postoje 3 hardkodirana usera:
+	user: Robert	password: Perica
+	user: Marko	password: Markovic
+	user: Pero	password: Peric
+
+Robert ima ulogu admina i usera (pa moze vidjeti sav tekst), Marko ima samo
+admin ulogu, pa ne vid korisnicki tekst, a Pero ima samo user ulogu, pa ne
+vidi administratorov tekst.
+
+
+NOTE:
+=====
+U direktoriju Jarovi se nalaze .jar datoteke za pojedini zadatak, sa
+svim dependecyjima, i preporuca ih se pokretati iz tih direktorija.
+Nisam bio konzistentan, pa su negdje u bin direktoriju, a negdje odmah
+u top-level direktoriju. Takodjer, maven nije bio koristen.
+
+
+2.
+==
+Ako se program pokrene bez ikakvih parametara, dobit ce se ispis svih opcija:
+$ java -jar helloclient.jar 
+Usage: 
+helloclient -user <username> -pass <password> [-info] [-verifyCert]
+
+Ako se koristi opcija -verifyCert, obzirom da je certifikat self-signed,
+aplikacija ce baciti jako veliki stack trace nakon exceptiona. Opcija -info
+prikazuje par detalja o certifikatu koji izdaje stranica na koju se spaja
+(interno je hardkodirana na https://localhost/app/hello - ovo je mozda malo
+ruzno napravljeno, ali radi)
+
+Primjeri poziva iz uputa o zadacima rade kako trebaju.
+
+
+3.
+==
+Ovaj programcic imitira SSH tunel. Koristenje je vrlo jednostavno. No, opcija
+-f (pokretanje ssh u pozadini) nije podrzana, jer smatram da je to
+funkcionalnost ljuske a ne programa (primjerice, u Linuxu operator &).
+I parametri se ne zadaju kao lport:rhost:rport, vec odvojeno, sa zasebnim
+flagovima.
+
+$ java -jar sshtunnel.jar Usage:
+sshtunnel <user@host> -lport <localport> -rhost <remotehost> -rport <remoteport>
+
+
+4.
+==
+Kao sto pise u zadatku, ovaj programcic podrzava nekoliko hashing funkcija.
+Nije mnogo, no da demonstrira svrhu. Ukoliko bi bilo potrebno implementirati
+i druge funkcioalnosti (poput kriptiranja (a)simetricnim algoritmima), onda
+bih bio koristio paket BouncyCastle, no ovako sam se oslonio na MessageDigest.
+
+$ java -jar cryptohash.jar 
+Usage:
+cryptohash -hash <name> -calc -file <filename>
+cryptohash -hash <name> -verify -file <filename> -checksum <filename>
+Supported hashing algorithms: SHA-1, SHA-256, SHA-512
+
+
+OSTALO
+======
+Ostali zadaci nisu rijeseni :(

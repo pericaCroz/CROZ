@@ -1,0 +1,3 @@
+Main-Class: hr.croz.zadatak4.Main
+Class-Path: .
+
