@@ -69,6 +69,42 @@ cryptohash -hash <name> -verify -file <filename> -checksum <filename>
 Supported hashing algorithms: SHA-1, SHA-256, SHA-512
 
 
-OSTALO
-======
-Ostali zadaci nisu rijeseni :(
+5.
+==
+$ java -jar digisign.jar 
+Usage:
+digisign -keystore <keystore> -sign -file <file>
+digisign -keystore <keystore> -verify -file <file> -signature <signature>
+
+Opet, program se poziva vrlo slicno kako je zadano tekstom zadatka. Jedina
+razlika je sto sam truststore/keystore nazvao istim parametrom. Potreban je
+jks (Java KeyStore) format, i prilozena je datoteka signer.jks kraj jar datoteke
+(sifra keysorea je 'signer', nije htjelo raditi bez passworda).
+U toj datoteci se nalaze certifikati signera i verifiera, kao i njihovi privatni
+kljucevi (iako bi u stvarnoj situaciji signer imao svoj privatni kljuc, i mozda
+verifierov certifikat buduci da je javan, a verifier ima svoj privatni kljuc i
+signerov javni certifikat). Bitno je samo paziti na aliase:
+	Kad se pita za certifikat:
+		1 - signerov
+		2 - verifierov
+	Kad se pita za privatni kljuc:
+		1 - signerov
+		2 - verifierov
+U konacnici se digitalni potpis kodira u base64 i stavlja u datoteku
+<ime>.signature
+
+
+6.
+==
+Ovaj zadatak opet nije rijesen, naime poceo sam, nasao paket imena XAdES4j
+(pretpostavljam da i vi to koristite sudeci po oznakama u .xml fajlu (<ds...>)).
+No, nemam dovoljno iskustva s postavljanjem svih silnih providera koji njegovi
+konstruktori za signera traze, pokusao sam kopirati njegove klase iz primjera,
+pokrenuti nad PKCS12 keystoreom (nesto mi se cini da ne radi s jks kad se
+potpisuje, ali nisam nesto preduboko kopao), no program baca Exception. Princip
+digitalnog potpisa mi je jasan, no ovaj framework nisam dovoljno proucio da bih
+mogao nesto napraviti s njim. Sto se kanonikalizacije tice, dodao sam mu
+constraint na objekt koji bi trebao potpisati, no uslijed exceptiona koji se 
+baci neposredno prije, ne znam radi li to ista pametno, ili treba i to 
+implementirati. Moj pokusaj implementacije obuhvaca samo potpisivanje, no kazem,
+obzirom da ne radi, nije od velike koristi.
